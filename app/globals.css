@@ -1,0 +1,382 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* Chaos Song Theme - Dark Fantasy Arcane */
+:root {
+  --background: oklch(0.13 0.04 295);
+  --foreground: oklch(0.96 0.02 300);
+  --card: oklch(0.18 0.05 295 / 0.65);
+  --card-foreground: oklch(0.96 0.02 300);
+  --popover: oklch(0.16 0.05 295);
+  --popover-foreground: oklch(0.96 0.02 300);
+  --primary: oklch(0.65 0.27 320);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.55 0.25 280);
+  --secondary-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.22 0.04 290);
+  --muted-foreground: oklch(0.72 0.05 295);
+  --accent: oklch(0.7 0.22 250);
+  --accent-foreground: oklch(0.1 0 0);
+  --destructive: oklch(0.62 0.27 18);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.35 0.08 295 / 0.5);
+  --input: oklch(0.22 0.05 295);
+  --ring: oklch(0.65 0.27 320);
+
+  /* Semantic colors for RPG system */
+  --harmony: oklch(0.72 0.22 320);
+  --stress: oklch(0.72 0.22 50);
+  --stress-high: oklch(0.65 0.3 18);
+  --hp: oklch(0.7 0.25 15);
+  --arcane: oklch(0.75 0.2 250);
+  --chaos: oklch(0.6 0.3 300);
+
+  /* Gradients */
+  --gradient-chaos: linear-gradient(135deg, oklch(0.55 0.25 280), oklch(0.6 0.3 320), oklch(0.65 0.27 250));
+  --gradient-harmony: linear-gradient(90deg, oklch(0.6 0.3 300), oklch(0.72 0.25 330));
+  --gradient-bg: radial-gradient(ellipse at top, oklch(0.22 0.1 290) 0%, oklch(0.1 0.04 290) 60%, oklch(0.06 0.02 290) 100%);
+  --gradient-stress: linear-gradient(90deg, oklch(0.6 0.25 45), oklch(0.65 0.3 18));
+  --gradient-stress-high: linear-gradient(90deg, oklch(0.55 0.32 18), oklch(0.7 0.35 30), oklch(0.55 0.32 10));
+
+  /* Shadows */
+  --shadow-glow: 0 0 40px oklch(0.65 0.27 320 / 0.35);
+  --shadow-arcane: 0 8px 32px oklch(0.4 0.2 290 / 0.4), 0 0 0 1px oklch(0.6 0.2 320 / 0.15);
+  --shadow-stress: 0 0 30px oklch(0.62 0.3 18 / 0.4), 0 0 60px oklch(0.62 0.3 18 / 0.2);
+
+  --radius: 0.875rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter, 'Inter', system-ui, sans-serif);
+  --font-serif: var(--font-cinzel, 'Cinzel', serif);
+  --font-mono: var(--font-jetbrains, 'JetBrains Mono', monospace);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-harmony: var(--harmony);
+  --color-stress: var(--stress);
+  --color-hp: var(--hp);
+  --color-arcane: var(--arcane);
+  --color-chaos: var(--chaos);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply text-foreground font-sans antialiased;
+    min-height: 100vh;
+    position: relative;
+  }
+  /* Background drift */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--gradient-bg);
+    background-size: 220% 220%;
+    background-attachment: fixed;
+    animation: backgroundDrift 28s linear infinite;
+    will-change: background-position;
+    z-index: -1;
+    pointer-events: none;
+  }
+  /* Noise texture — stronger grain */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.058;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+  h1, h2, h3, h4 { @apply font-serif tracking-wide; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: oklch(0.1 0.03 290); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, oklch(0.5 0.2 300), oklch(0.4 0.18 280));
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, oklch(0.55 0.22 300), oklch(0.45 0.2 280));
+  }
+}
+
+@layer components {
+  .glass {
+    background: linear-gradient(180deg, oklch(0.22 0.05 295 / 0.55), oklch(0.14 0.04 295 / 0.45));
+    backdrop-filter: blur(8px) saturate(130%);
+    border: 1px solid oklch(0.55 0.15 300 / 0.25);
+    box-shadow: var(--shadow-arcane);
+  }
+  .glass-strong {
+    background: linear-gradient(180deg, oklch(0.24 0.06 295 / 0.75), oklch(0.14 0.05 295 / 0.6));
+    backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid oklch(0.6 0.18 310 / 0.3);
+    box-shadow: var(--shadow-arcane);
+  }
+  .text-gradient {
+    background: var(--gradient-chaos);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .text-glow { text-shadow: 0 0 20px rgba(165, 85, 255, 0.35); }
+
+  .magic-panel {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, oklch(0.2 0.05 295 / 0.72), oklch(0.12 0.03 295 / 0.34));
+    border: 1px solid rgba(166, 137, 255, 0.12);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 28px rgba(114, 47, 211, 0.08);
+  }
+  .magic-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at top left, rgba(113, 75, 255, 0.06), transparent 24%),
+                radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.07), transparent 28%);
+  }
+
+  .arcane-entrance { animation: arcaneEntrance 0.72s ease-out forwards; }
+  .glow-magenta { box-shadow: 0 0 30px oklch(0.65 0.27 320 / 0.5); }
+  .ring-arcane { box-shadow: 0 0 0 1px oklch(0.65 0.27 320 / 0.4), 0 0 24px oklch(0.65 0.27 320 / 0.25); }
+  .pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+  .vital-critical { animation: breathe 1.1s ease-in-out infinite; }
+  .harmony-critical { animation: harmonyPulse 1.4s ease-in-out infinite; }
+  .status-flicker { animation: flicker 1s steps(2, end) infinite; }
+  .recently-updated { animation: recentlyUpdatedGlow 1s ease-in-out; }
+
+  .invocation-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at center, rgba(236, 72, 153, 0.24), transparent 42%);
+    pointer-events: none;
+    animation: invocationBurst 0.65s ease-out forwards;
+  }
+  .invocation-spark {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.9), transparent 55%);
+    filter: blur(0.18rem);
+    pointer-events: none;
+    animation: sparkPop 0.55s ease-out forwards;
+  }
+
+  /* ===== CRACKED BORDER — more visible fracture lines ===== */
+  .cracked-border { position: relative; }
+  .cracked-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background: transparent;
+    border: 1px solid oklch(0.65 0.2 300 / 0.45);
+    clip-path: polygon(
+      0% 6%, 2% 0%, 6% 0%,
+      30% 0%, 32% 1%, 34% 0%,
+      66% 0%, 68% 1.5%, 70% 0%,
+      94% 0%, 98% 0%, 100% 6%,
+      100% 94%, 98% 100%, 94% 100%,
+      70% 100%, 68% 98.5%, 66% 100%,
+      34% 100%, 32% 99%, 30% 100%,
+      6% 100%, 2% 100%, 0% 94%
+    );
+  }
+
+  /* ===== SOUND WAVE — dual animated layers ===== */
+  .sound-wave-bg { position: relative; overflow: hidden; }
+  .sound-wave-bg::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 52px;
+    pointer-events: none;
+    opacity: 0.26;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 52'%3E%3Cpath d='M0 26 Q25 4 50 26 Q75 48 100 26 Q125 4 150 26 Q175 48 200 26 Q225 4 250 26 Q275 48 300 26 Q325 4 350 26 Q375 48 400 26 Q425 4 450 26 Q475 48 500 26 Q525 4 550 26 Q575 48 600 26 Q625 4 650 26 Q675 48 700 26 Q725 4 750 26 Q775 48 800 26' stroke='%23c026d3' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 800px 52px;
+    animation: waveScroll 7s linear infinite;
+    z-index: 1;
+  }
+  .sound-wave-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 6px; left: 0; right: 0;
+    height: 36px;
+    pointer-events: none;
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 36'%3E%3Cpath d='M0 18 Q10 6 20 18 Q30 30 40 18 Q50 6 60 18 Q70 30 80 18 Q90 6 100 18 Q110 30 120 18 Q130 6 140 18 Q150 30 160 18 Q170 6 180 18 Q190 30 200 18 Q210 6 220 18 Q230 30 240 18 Q250 6 260 18 Q270 30 280 18 Q290 6 300 18 Q310 30 320 18 Q330 6 340 18 Q350 30 360 18 Q370 6 380 18 Q390 30 400 18' stroke='%23f97316' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 400px 36px;
+    animation: waveScrollReverse 4.5s linear infinite;
+    z-index: 1;
+  }
+
+  .equalizer-bar {
+    animation: wave 1.2s ease-in-out infinite;
+    transform-origin: bottom;
+  }
+
+  /* ===== STRESS — INVERTED: HIGH = WORSE ===== */
+  .stress-warning {
+    border-color: oklch(0.65 0.25 45 / 0.55) !important;
+    background: oklch(0.65 0.25 45 / 0.07) !important;
+    box-shadow: 0 0 22px oklch(0.65 0.25 45 / 0.15) !important;
+  }
+  .stress-critical {
+    border-color: oklch(0.62 0.3 18 / 0.75) !important;
+    background: oklch(0.55 0.25 18 / 0.14) !important;
+    box-shadow: var(--shadow-stress) !important;
+    animation: stressPulse 0.9s ease-in-out infinite !important;
+  }
+  .stress-bar-high {
+    background: var(--gradient-stress-high) !important;
+    animation: stressBarFlicker 0.7s steps(3, end) infinite;
+  }
+  .stress-max {
+    animation: stressShake 0.12s ease-in-out infinite, stressPulse 0.9s ease-in-out infinite !important;
+    filter: saturate(1.5) !important;
+  }
+
+  .sonic-wave-burst {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1.5px solid oklch(0.62 0.3 18 / 0.7);
+    pointer-events: none;
+    animation: sonicWaveExpand 0.9s ease-out forwards;
+  }
+}
+
+/* ===== KEYFRAMES ===== */
+
+@keyframes waveScroll {
+  from { background-position-x: 0; }
+  to   { background-position-x: 800px; }
+}
+@keyframes waveScrollReverse {
+  from { background-position-x: 400px; }
+  to   { background-position-x: 0; }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 18px oklch(0.65 0.27 320 / 0.36); transform: translateY(0); }
+  50%       { box-shadow: 0 0 38px oklch(0.65 0.27 320 / 0.64); transform: translateY(-1px); }
+}
+@keyframes arcanePulse {
+  0%, 100% { transform: scale(1);     box-shadow: 0 0 18px oklch(0.65 0.27 320 / 0.22); }
+  50%       { transform: scale(1.006); box-shadow: 0 0 34px oklch(0.65 0.27 320 / 0.35); }
+}
+@keyframes glowRing {
+  0%   { opacity: 0.72; transform: scale(0.86); }
+  100% { opacity: 0;    transform: scale(1.9); }
+}
+@keyframes shimmerTrace {
+  0%   { opacity: 0.18; transform: translateX(-12px) rotate(-10deg); }
+  50%  { opacity: 0.48; transform: translateX(12px) rotate(10deg); }
+  100% { opacity: 0.18; transform: translateX(-12px) rotate(-10deg); }
+}
+@keyframes backgroundDrift {
+  0%, 100% { background-position: 10% 20%; }
+  50%       { background-position: 90% 80%; }
+}
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.4); }
+  50%       { transform: scaleY(1); }
+}
+@keyframes invocationBurst {
+  0%   { opacity: 0.75; transform: scale(0.85); }
+  100% { opacity: 0;    transform: scale(2.1); }
+}
+@keyframes sparkPop {
+  0%   { opacity: 0.85; transform: scale(0.5); }
+  100% { opacity: 0;    transform: scale(1.8); }
+}
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.16); }
+  40%       { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.18), 0 0 22px rgba(239, 68, 68, 0.16); }
+  70%       { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.08), 0 0 34px rgba(239, 68, 68, 0.14); }
+}
+@keyframes harmonyPulse {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.72 0.22 320 / 0.10); }
+  50%       { box-shadow: 0 0 0 6px oklch(0.72 0.22 320 / 0.10), 0 0 30px oklch(0.72 0.22 320 / 0.20); }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; }
+}
+@keyframes arcaneEntrance {
+  0%  { opacity: 0; transform: translateY(10px) scale(0.97); filter: blur(4px); }
+  60% { opacity: 1; filter: blur(0px); }
+  100%{ opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+}
+@keyframes recentlyUpdatedGlow {
+  0%   { box-shadow: 0 0 0px rgba(139, 92, 246, 0); }
+  50%  { box-shadow: 0 0 22px rgba(139, 92, 246, 0.65); }
+  100% { box-shadow: 0 0 0px rgba(139, 92, 246, 0); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60%  { transform: translateX(-8px); }
+  40%, 80%  { transform: translateX(8px); }
+  30%, 70%  { transform: translateX(-5px); }
+  50%, 90%  { transform: translateX(5px); }
+}
+.shake { animation: shake 0.4s ease; }
+
+/* STRESS-SPECIFIC — high value = chaos */
+@keyframes stressPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 oklch(0.62 0.3 18 / 0.15), 0 0 20px oklch(0.62 0.3 18 / 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 5px oklch(0.62 0.3 18 / 0.2), 0 0 50px oklch(0.62 0.3 18 / 0.5);
+  }
+}
+@keyframes stressShake {
+  0%   { transform: translateX(0)    translateY(0); }
+  25%  { transform: translateX(-1px) translateY(1px); }
+  50%  { transform: translateX(1px)  translateY(-1px); }
+  75%  { transform: translateX(-1px) translateY(-1px); }
+  100% { transform: translateX(0)    translateY(0); }
+}
+@keyframes stressBarFlicker {
+  0%, 100% { opacity: 1;    filter: brightness(1); }
+  33%       { opacity: 0.85; filter: brightness(1.35) saturate(1.7); }
+  66%       { opacity: 0.95; filter: brightness(0.88); }
+}
+@keyframes sonicWaveExpand {
+  0%   { transform: scaleX(0.6) scaleY(0.2); opacity: 0.8; }
+  100% { transform: scaleX(1.4) scaleY(1.2); opacity: 0; }
+}
